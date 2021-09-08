@@ -1,10 +1,12 @@
 App\Entity\Translation:
   attributes:
     id:
-      groups: [ 'key' ]
+      groups: ['translation']
     text:
-      groups: ['key']
+      groups: ['translation', 'key-translation']
     language:
-      groups: ['key']
+      groups: ['translation', 'language' , 'key-translation']
+    keyId:
+      groups: ['translation']
 
 

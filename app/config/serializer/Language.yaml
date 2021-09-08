@@ -3,8 +3,8 @@ App\Entity\Language:
     id:
       groups: ['language']
     name:
-      groups: ['language', 'key']
+      groups: ['language']
     ISO:
-      groups: [ 'language' ]
+      groups: [ 'language', 'translation', 'key-translation']
     LTR:
       groups: [ 'language' ]

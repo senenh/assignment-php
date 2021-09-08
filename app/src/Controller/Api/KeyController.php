@@ -24,7 +24,7 @@ class KeyController extends AbstractFOSRestController
 
     /**
      * @Rest\Post(path="/key")
-     * @Rest\View(serializerGroups={"key"}, serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerGroups={"key", "key-translation"}, serializerEnableMaxDepthChecks=true)
      */
     public function create(Request $request, SerializerInterface $serializer, ValidatorInterface $validator, EntityManagerInterface $entityManager)
     {
@@ -63,7 +63,7 @@ class KeyController extends AbstractFOSRestController
 
     /**
      * @Rest\Get(path="/keys")
-     * @Rest\View(serializerGroups={"key"}, serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerGroups={"key", "key-translation"}, serializerEnableMaxDepthChecks=true)
      */
     public function list(KeyRepository $keyRepository)
     {
@@ -73,7 +73,7 @@ class KeyController extends AbstractFOSRestController
     /**
      * @Rest\Get(path="/key/{id}")
      * @ParamConverter("key", class="App\Entity\Key")
-     * @Rest\View(serializerGroups={"key"}, serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerGroups={"key", "key-translation"}, serializerEnableMaxDepthChecks=true)
      */
     public function retrieve(Key $key)
     {
@@ -83,7 +83,7 @@ class KeyController extends AbstractFOSRestController
     /**
      * @Rest\Patch(path="/key/{id}")
      * @ParamConverter("key", class="App\Entity\Key")
-     * @Rest\View(serializerGroups={"key"}, serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerGroups={"key", "key-translation"}, serializerEnableMaxDepthChecks=true)
      */
     public function rename(Key $key, Request $request, SerializerInterface $serializer, ValidatorInterface $validator, EntityManagerInterface $entityManager)
     {

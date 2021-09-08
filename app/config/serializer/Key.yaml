@@ -3,7 +3,7 @@ App\Entity\Key:
     id:
       groups: [ 'key' ]
     name:
-      groups: ['key']
+      groups: ['key', 'translation']
     translations:
-      groups: ['key']
+      groups: ['key-translation']
 
