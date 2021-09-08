@@ -7,9 +7,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 
 /**
- * @ORM\Table(name="video_settings",
+ * @ORM\Table(
  *    uniqueConstraints={
- *        @UniqueConstraint(name="video_unique",
+ *        @UniqueConstraint(
  *            columns={"key_id", "language_id", "translation_id"})
  *    }
  * )
