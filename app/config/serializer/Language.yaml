@@ -1,0 +1,10 @@
+App\Entity\Language:
+  attributes:
+    id:
+      groups: ['language']
+    name:
+      groups: ['language']
+    ISO:
+      groups: [ 'language' ]
+    LTR:
+      groups: [ 'language' ]

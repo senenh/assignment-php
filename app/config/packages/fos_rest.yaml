@@ -1,15 +1,27 @@
 # Read the documentation: https://symfony.com/doc/master/bundles/FOSRestBundle/index.html
-#fos_rest:
-#    param_fetcher_listener:  true
-#    allowed_methods_listener:  true
-#    routing_loader: true
-#    view:
-#        view_response_listener:  true
+fos_rest:
+    param_fetcher_listener:  true
+    allowed_methods_listener:  true
+    view:
+        empty_content: 200
+        view_response_listener:  true
+        failed_validation: HTTP_BAD_REQUEST
+        formats:
+            json: true
+            xml: false
+        jsonp_handler: ~
+    body_listener:
+        decoders:
+                json: fos_rest.decoder.json
+    exception:
+        enabled: true
+    serializer:
+        serialize_null: true
 #    exception:
 #        codes:
 #            App\Exception\MyException: 403
 #        messages:
 #            App\Exception\MyException: Forbidden area.
-#    format_listener:
-#        rules:
-#            - { path: ^/api, prefer_extension: true, fallback_format: json, priorities: [ json, html ] }
+    format_listener:
+        rules:
+            - { path: ^/api, prefer_extension: true, fallback_format: json, priorities: [ json, html ] }
