@@ -1,0 +1,10 @@
+App\Entity\Translation:
+  attributes:
+    id:
+      groups: [ 'key' ]
+    text:
+      groups: ['key']
+    language:
+      groups: ['key']
+
+

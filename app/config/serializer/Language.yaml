@@ -3,7 +3,7 @@ App\Entity\Language:
     id:
       groups: ['language']
     name:
-      groups: ['language']
+      groups: ['language', 'key']
     ISO:
       groups: [ 'language' ]
     LTR:

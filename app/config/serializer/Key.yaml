@@ -1,0 +1,9 @@
+App\Entity\Key:
+  attributes:
+    id:
+      groups: [ 'key' ]
+    name:
+      groups: ['key']
+    translations:
+      groups: ['key']
+

@@ -39,9 +39,15 @@ class Language
      */
     private $keyLanguageTranslations;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Translation::class, mappedBy="language", orphanRemoval=true)
+     */
+    private $translations;
+
     public function __construct()
     {
         $this->keyLanguageTranslations = new ArrayCollection();
+        $this->translations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -109,6 +115,36 @@ class Language
             // set the owning side to null (unless already changed)
             if ($keyLanguageTranslation->getLanguage() === $this) {
                 $keyLanguageTranslation->setLanguage(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Translation[]
+     */
+    public function getTranslations(): Collection
+    {
+        return $this->translations;
+    }
+
+    public function addTranslation(Translation $translation): self
+    {
+        if (!$this->translations->contains($translation)) {
+            $this->translations[] = $translation;
+            $translation->setLanguage($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTranslation(Translation $translation): self
+    {
+        if ($this->translations->removeElement($translation)) {
+            // set the owning side to null (unless already changed)
+            if ($translation->getLanguage() === $this) {
+                $translation->setLanguage(null);
             }
         }
 

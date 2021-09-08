@@ -6,10 +6,16 @@ use App\Repository\KeyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Serializer;
+
 
 /**
  * @ORM\Entity(repositoryClass=KeyRepository::class)
- * @ORM\Table(name="`key`")
+ * @ORM\Table(name="`key`" )
+ * @UniqueEntity("name")
  */
 class Key
 {
@@ -21,12 +27,15 @@ class Key
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @Assert\Type("string")
+     * @ORM\Column(type="string", length=255, unique=true)
+     * @Groups({"key"})
+     * @Assert\NotBlank()
      */
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity=KeyLanguageTranslation::class, mappedBy="keyName", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=KeyLanguageTranslation::class, mappedBy="keyId", orphanRemoval=true)
      */
     private $language;
 
@@ -35,10 +44,16 @@ class Key
      */
     private $keyLanguageTranslations;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Translation::class, mappedBy="keyId", orphanRemoval=true)
+     */
+    private $translations;
+
     public function __construct()
     {
         $this->language = new ArrayCollection();
         $this->keyLanguageTranslations = new ArrayCollection();
+        $this->translations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -112,6 +127,36 @@ class Key
             // set the owning side to null (unless already changed)
             if ($keyLanguageTranslation->getKeyId() === $this) {
                 $keyLanguageTranslation->setKeyId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Translation[]
+     */
+    public function getTranslations(): Collection
+    {
+        return $this->translations;
+    }
+
+    public function addTranslation(Translation $translation): self
+    {
+        if (!$this->translations->contains($translation)) {
+            $this->translations[] = $translation;
+            $translation->setKeyId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTranslation(Translation $translation): self
+    {
+        if ($this->translations->removeElement($translation)) {
+            // set the owning side to null (unless already changed)
+            if ($translation->getKeyId() === $this) {
+                $translation->setKeyId(null);
             }
         }
 

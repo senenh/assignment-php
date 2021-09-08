@@ -23,6 +23,16 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+#    # Param converter
+#    app.param_converter.api_converter:
+#        class: App\ParamConverter\KeyConverter
+#        autowire: true
+#        autoconfigure: true
+#        public: true
+#        tags:
+#            - { name: request.param_converter, converter: key_converter }
+
     Symfony\Component\Serializer\Normalizer\ObjectNormalizer:
         class: Symfony\Component\Serializer\Normalizer\ObjectNormalizer
         public: false

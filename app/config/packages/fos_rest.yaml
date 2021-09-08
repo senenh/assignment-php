@@ -10,11 +10,22 @@ fos_rest:
             json: true
             xml: false
         jsonp_handler: ~
+    body_converter:
+        enabled: true
+        validate: true
+        validation_errors_argument: validationErrors
     body_listener:
         decoders:
                 json: fos_rest.decoder.json
     exception:
         enabled: true
+        exception_listener: false
+        serializer_error_renderer: true
+        serialize_exceptions: false
+        map_exception_codes: true
+        messages:
+            'Symfony\Component\HttpKernel\Exception\HttpException': true
+
     serializer:
         serialize_null: true
 #    exception:

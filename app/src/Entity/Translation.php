@@ -29,9 +29,22 @@ class Translation
      */
     private $keyLanguageTranslations;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Key::class, inversedBy="translations")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $keyId;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Language::class, inversedBy="translations")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $language;
+
     public function __construct()
     {
         $this->keyLanguageTranslations = new ArrayCollection();
+        $this->language = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -77,6 +90,30 @@ class Translation
                 $keyLanguageTranslation->setTranslation(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getKeyId(): ?Key
+    {
+        return $this->keyId;
+    }
+
+    public function setKeyId(?Key $keyId): self
+    {
+        $this->keyId = $keyId;
+
+        return $this;
+    }
+
+    public function getLanguage(): ?Language
+    {
+        return $this->language;
+    }
+
+    public function setLanguage(?Language $language): self
+    {
+        $this->language = $language;
 
         return $this;
     }
