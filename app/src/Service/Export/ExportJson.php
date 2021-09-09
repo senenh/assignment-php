@@ -49,7 +49,7 @@ class ExportJson implements Export
                 $jsonFileArray[$keyName] = $text;
             }
             $this->filesystem->mkdir($pathUser.'zip/', 0700);
-            $this->filesystem->dumpFile($pathUser.$language->getISO().'.json', json_encode($jsonFileArray, JSON_PRETTY_PRINT));
+            $this->filesystem->dumpFile($pathUser.$language->getISO().'.json', json_encode($jsonFileArray, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
         }
 
         $finder = new Finder();

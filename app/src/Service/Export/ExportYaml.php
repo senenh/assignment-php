@@ -45,9 +45,7 @@ class ExportYaml implements Export
             $translations = $this->manager->getRepository(Translation::class)->findBy(['language' => $language->getId()]);
             /** @var Translation $translation */
             foreach ($translations as $translation) {
-                $keyName = $translation->getKeyId()->getName();
-                $text = $translation->getText();
-                $yamlFileArray[$language->getISO()][$keyName] = $text;
+                $yamlFileArray[$language->getISO()][$translation->getKeyId()->getName()] = $translation->getText();
             }
         }
 
