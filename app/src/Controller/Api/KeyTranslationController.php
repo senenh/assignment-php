@@ -9,6 +9,7 @@ use App\Helper\ValidateHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -21,6 +22,7 @@ class KeyTranslationController extends AbstractFOSRestController
     /**
      * @Rest\Put(path="/key-translation")
      * @Rest\View(serializerGroups={"translation"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function update(Request $request, SerializerInterface $serializer, ValidatorInterface $validator, EntityManagerInterface $entityManager)
     {

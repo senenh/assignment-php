@@ -33,14 +33,14 @@ services:
 #        tags:
 #            - { name: request.param_converter, converter: key_converter }
 
-    Symfony\Component\Serializer\Normalizer\ObjectNormalizer:
-        class: Symfony\Component\Serializer\Normalizer\ObjectNormalizer
-        public: false
-        tags:
-            - { name: 'serializer.normalizer' }
-
-    Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer:
-        class: Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer
-        public: false
-        tags:
-            - { name: 'serializer.normalizer' }
+#    Symfony\Component\Serializer\Normalizer\ObjectNormalizer:
+#        class: Symfony\Component\Serializer\Normalizer\ObjectNormalizer
+#        public: false
+#        tags:
+#            - { name: 'serializer.normalizer' }
+#
+#    Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer:
+#        class: Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer
+#        public: false
+#        tags:
+#            - { name: 'serializer.normalizer' }

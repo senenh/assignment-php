@@ -2,16 +2,17 @@
 
 namespace App\Controller\Api;
 
+use App\DTO\CreateKeyRequestPayload;
 use App\Entity\Key;
 use App\Entity\KeyLanguageTranslation;
 use App\Entity\Language;
 use App\Entity\Translation;
 use App\Helper\ValidateHelper;
 use App\Repository\KeyRepository;
-use CreateKeyRequestPayload;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,6 +26,7 @@ class KeyController extends AbstractFOSRestController
     /**
      * @Rest\Post(path="/key")
      * @Rest\View(serializerGroups={"key", "key-translation"}, serializerEnableMaxDepthChecks=true)
+     * @IsGranted("ROLE_ADMIN")
      */
     public function create(Request $request, SerializerInterface $serializer, ValidatorInterface $validator, EntityManagerInterface $entityManager)
     {
@@ -84,6 +86,7 @@ class KeyController extends AbstractFOSRestController
      * @Rest\Patch(path="/key/{id}")
      * @ParamConverter("key", class="App\Entity\Key")
      * @Rest\View(serializerGroups={"key", "key-translation"}, serializerEnableMaxDepthChecks=true)
+     * @IsGranted("ROLE_ADMIN")
      */
     public function rename(Key $key, Request $request, SerializerInterface $serializer, ValidatorInterface $validator, EntityManagerInterface $entityManager)
     {
@@ -109,6 +112,7 @@ class KeyController extends AbstractFOSRestController
     /**
      * @Rest\Delete(path="/key/{id}")
      * @ParamConverter("key", class="App\Entity\Key")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function delete(Key $key, EntityManagerInterface $entityManager)
     {
