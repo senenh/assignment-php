@@ -2,65 +2,33 @@
 
 namespace App\Controller\Api;
 
-use App\DTO\CreateKeyRequestPayload;
 use App\Entity\Key;
-use App\Entity\KeyLanguageTranslation;
-use App\Entity\Language;
-use App\Entity\Translation;
-use App\Helper\ValidateHelper;
+use App\Manager\KeyManager;
 use App\Repository\KeyRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use FOS\RestBundle\View\View;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 class KeyController extends AbstractFOSRestController
 {
-    use ValidateHelper;
-
     /**
      * @Rest\Post(path="/key")
      * @Rest\View(serializerGroups={"key", "key-translation"}, serializerEnableMaxDepthChecks=true)
+     * @ParamConverter("key", class="App\Entity\Key", converter="fos_rest.request_body")
      * @IsGranted("ROLE_ADMIN")
      */
-    public function create(Request $request, SerializerInterface $serializer, ValidatorInterface $validator, EntityManagerInterface $entityManager)
+    public function create(Key $key, ConstraintViolationListInterface $validationErrors, KeyManager $keyManager)
     {
-        [$violations] = $this->validate($request->getContent(),CreateKeyRequestPayload::class, $serializer, $validator);
-
-        if (count($violations) > 0) {
-            return $this->returnErrors($violations);
+        if (\count($validationErrors) > 0) {
+            return View::create($validationErrors, Response::HTTP_BAD_REQUEST);
         }
 
-        [$violations, $key] = $this->validate($request->getContent(),Key::class, $serializer, $validator);
-
-        if (count($violations) > 0) {
-            return $this->returnErrors($violations);
-        }
-
-        $languages = $this->getDoctrine()->getRepository(Language::class)->findAll();
-
-        foreach ($languages as $language) {
-            $translation = new Translation();
-            $translation->setText('');
-            $translation->setKeyId($key);
-            $translation->setLanguage($language);
-            $entityManager->persist($translation);
-            $keyLanguageTranslation = new KeyLanguageTranslation();
-            $keyLanguageTranslation->setTranslation($translation);
-            $keyLanguageTranslation->setLanguage($language);
-            $keyLanguageTranslation->setKeyId($key);
-            $entityManager->persist($keyLanguageTranslation);
-        }
-
-        $entityManager->persist($key);
-        $entityManager->flush();
-
-        return $key;
+        return $keyManager->createKey($key);
     }
 
     /**
@@ -74,8 +42,8 @@ class KeyController extends AbstractFOSRestController
 
     /**
      * @Rest\Get(path="/key/{id}")
-     * @ParamConverter("key", class="App\Entity\Key")
      * @Rest\View(serializerGroups={"key", "key-translation"}, serializerEnableMaxDepthChecks=true)
+     * @ParamConverter("key", class="App\Entity\Key")
      */
     public function retrieve(Key $key)
     {
@@ -84,25 +52,18 @@ class KeyController extends AbstractFOSRestController
 
     /**
      * @Rest\Patch(path="/key/{id}")
-     * @ParamConverter("key", class="App\Entity\Key")
      * @Rest\View(serializerGroups={"key", "key-translation"}, serializerEnableMaxDepthChecks=true)
+     * @ParamConverter("key", class="App\Entity\Key")
+     * @ParamConverter("keyNew", class="App\Entity\Key", converter="fos_rest.request_body")
      * @IsGranted("ROLE_ADMIN")
      */
-    public function rename(Key $key, Request $request, SerializerInterface $serializer, ValidatorInterface $validator, EntityManagerInterface $entityManager)
+    public function rename(Key $key, Key $keyNew, ConstraintViolationListInterface $validationErrors, EntityManagerInterface $entityManager)
     {
-        [$violations] = $this->validate($request->getContent(),CreateKeyRequestPayload::class, $serializer, $validator);
-
-        if (count($violations) > 0) {
-            return $this->returnErrors($violations);
+        if (\count($validationErrors) > 0) {
+            return View::create($validationErrors, Response::HTTP_BAD_REQUEST);
         }
 
-        [$violations, $keyJson] = $this->validate($request->getContent(),Key::class, $serializer, $validator);
-
-        if (count($violations) > 0) {
-            return $this->returnErrors($violations);
-        }
-
-        $key->setName($keyJson->getName());
+        $key->setName($keyNew->getName());
         $entityManager->persist($key);
         $entityManager->flush();
 
@@ -119,8 +80,6 @@ class KeyController extends AbstractFOSRestController
         $entityManager->remove($key);
         $entityManager->flush();
 
-        return new JsonResponse(['status' => 'ok'], 200);
+        return View::create([], Response::HTTP_NO_CONTENT);
     }
-
-
 }

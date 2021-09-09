@@ -12,7 +12,7 @@ class LanguageController extends AbstractFOSRestController
      * @Rest\Get(path="/languages")
      * @Rest\View(serializerGroups={"language"}, serializerEnableMaxDepthChecks=true)
      */
-    public function index(LanguageRepository $languageRepository)
+    public function list(LanguageRepository $languageRepository)
     {
         return $languageRepository->findAll();
     }
