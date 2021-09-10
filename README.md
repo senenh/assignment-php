@@ -1,3 +1,16 @@
+### Setting up de application
+
+```
+docker-compose up -d
+docker-compose exec php bash -c "php composer.phar install"
+docker-compose exec php bash -c "bin/console doctrine:database:create"
+docker-compose exec php bash -c "bin/console --env=test doctrine:database:create"
+docker-compose exec php bash -c "bin/console doctrine:migrations:migrate"
+docker-compose exec php bash -c "bin/console doctrine:fixtures:load"
+docker-compose exec php bash -c "bin/console --env=test doctrine:schema:create"
+docker-compose exec php bash -c "./vendor/bin/phpunit"
+```
+
 # Lokalise PHP homework
 Hello and welcome!
 
@@ -89,3 +102,5 @@ The environment includes the `phpmyadmin` tool. In order to access it, use the h
 
 #### 5. Running the application
 Use the http://127.0.0.1 URL to access your application
+
+
