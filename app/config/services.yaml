@@ -20,3 +20,8 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
             - '../src/Tests/'
+
+    app.exception_normalizer:
+        class: App\Serializer\ExceptionNormalizer
+        tags:
+            - { name: serializer.normalizer }
