@@ -1,4 +1,4 @@
-### Setting up de application
+### Setting up the application
 
 ```
 docker-compose up -d
