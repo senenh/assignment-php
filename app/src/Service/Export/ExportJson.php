@@ -14,7 +14,7 @@ class ExportJson implements Export
     private EntityManagerInterface $manager;
     private Filesystem $filesystem;
 
-    public function __construct(CompressZip $compressZip, EntityManagerInterface $manager,Filesystem $filesystem)
+    public function __construct(CompressZip $compressZip, EntityManagerInterface $manager, Filesystem $filesystem)
     {
         $this->compressZip = $compressZip;
         $this->manager = $manager;
@@ -27,7 +27,7 @@ class ExportJson implements Export
 
         $files = $this->generateFiles($userIdentifier);
 
-        $zipName = 'json-export-'.time().".zip";
+        $zipName = 'json-export-' . time() . ".zip";
         return $this->compressZip->compress($files, $zipName, $userId, Export::JSON);
     }
 
@@ -35,7 +35,7 @@ class ExportJson implements Export
     {
         $userId = hash('ripemd160', $userIdentifier);
 
-        $pathUser = '/tmp/export/json/'.$userId.'/';
+        $pathUser = '/tmp/export/json/' . $userId . '/';
         $languages = $this->manager->getRepository(Language::class)->findAll();
         $jsonFileArray = [];
 
@@ -48,8 +48,8 @@ class ExportJson implements Export
                 $text = $translation->getText();
                 $jsonFileArray[$keyName] = $text;
             }
-            $this->filesystem->mkdir($pathUser.'zip/', 0700);
-            $this->filesystem->dumpFile($pathUser.$language->getISO().'.json', json_encode($jsonFileArray, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+            $this->filesystem->mkdir($pathUser . 'zip/', 0700);
+            $this->filesystem->dumpFile($pathUser . $language->getISO() . '.json', json_encode($jsonFileArray, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
         }
 
         $finder = new Finder();

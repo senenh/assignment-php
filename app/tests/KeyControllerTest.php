@@ -44,24 +44,30 @@ class KeyControllerTest extends WebTestCase
                 'App\DataFixtures\UserFixtures',
                 'App\DataFixtures\AppFixtures',
             ));
-
         }
     }
 
     public function testKeyListSuccess(): void
     {
-        $this->client->request('GET', '/api/keys', array(),
+        $this->client->request(
+            'GET',
+            '/api/keys',
+            array(),
             array(),
             array(
                 'HTTP_Authorization' => 'Bearer d96e7c6c7331bc282799681efd11e9fcbb0a781f0633834ae250cfb0c72c392af847bba77f6554ad408ab8f5032de43c137e7482f70dbc7a9d72310f'
-            ));
+            )
+        );
 
         self::assertResponseIsSuccessful();
     }
 
     public function testKeyCreateNotAdmin(): void
     {
-        $this->client->request('POST', '/api/key', array(),
+        $this->client->request(
+            'POST',
+            '/api/key',
+            array(),
             array(),
             array(
                 'CONTENT_TYPE' => 'application/json',
@@ -75,7 +81,10 @@ class KeyControllerTest extends WebTestCase
 
     public function testKeyCreateSuccess(): void
     {
-        $this->client->request('POST', '/api/key', array(),
+        $this->client->request(
+            'POST',
+            '/api/key',
+            array(),
             array(),
             array(
                 'CONTENT_TYPE' => 'application/json',
@@ -92,7 +101,10 @@ class KeyControllerTest extends WebTestCase
      */
     public function testKeyGetList(): void
     {
-        $this->client->request('GET', '/api/keys', array(),
+        $this->client->request(
+            'GET',
+            '/api/keys',
+            array(),
             array(),
             array(
                 'CONTENT_TYPE' => 'application/json',
@@ -109,7 +121,10 @@ class KeyControllerTest extends WebTestCase
      */
     public function testGetKey(): void
     {
-        $this->client->request('GET', '/api/key/1', array(),
+        $this->client->request(
+            'GET',
+            '/api/key/1',
+            array(),
             array(),
             array(
                 'CONTENT_TYPE' => 'application/json',
@@ -126,7 +141,10 @@ class KeyControllerTest extends WebTestCase
      */
     public function testGetKeyFail(): void
     {
-        $this->client->request('GET', '/api/key/2', array(),
+        $this->client->request(
+            'GET',
+            '/api/key/2',
+            array(),
             array(),
             array(
                 'CONTENT_TYPE' => 'application/json',
@@ -142,7 +160,10 @@ class KeyControllerTest extends WebTestCase
      */
     public function testUpdateNameKey(): void
     {
-        $this->client->request('PATCH', '/api/key/1', array(),
+        $this->client->request(
+            'PATCH',
+            '/api/key/1',
+            array(),
             array(),
             array(
                 'CONTENT_TYPE' => 'application/json',
@@ -159,7 +180,10 @@ class KeyControllerTest extends WebTestCase
      */
     public function testKeyDeleteSuccess(): void
     {
-        $this->client->request('POST', '/api/key', array(),
+        $this->client->request(
+            'POST',
+            '/api/key',
+            array(),
             array(),
             array(
                 'CONTENT_TYPE' => 'application/json',
@@ -168,7 +192,10 @@ class KeyControllerTest extends WebTestCase
             '{"name": "body.header"}'
         );
 
-        $this->client->request('DELETE', '/api/key/2', array(),
+        $this->client->request(
+            'DELETE',
+            '/api/key/2',
+            array(),
             array(),
             array(
                 'CONTENT_TYPE' => 'application/json',
@@ -178,7 +205,10 @@ class KeyControllerTest extends WebTestCase
         );
         self::assertResponseIsSuccessful();
 
-        $this->client->request('GET', '/api/keys', array(),
+        $this->client->request(
+            'GET',
+            '/api/keys',
+            array(),
             array(),
             array(
                 'CONTENT_TYPE' => 'application/json',
@@ -188,5 +218,4 @@ class KeyControllerTest extends WebTestCase
 
         self::assertEquals(1, count(json_decode($this->client->getResponse()->getContent(), true)));
     }
-
 }

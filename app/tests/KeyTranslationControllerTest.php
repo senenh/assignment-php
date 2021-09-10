@@ -27,7 +27,6 @@ class KeyTranslationControllerTest extends WebTestCase
      * @var boolean
      */
     protected static $setUpHasRunOnce = false;
-//    protected static $client;
 
     protected function setUp(): void
     {
@@ -44,13 +43,15 @@ class KeyTranslationControllerTest extends WebTestCase
                 'App\DataFixtures\UserFixtures',
                 'App\DataFixtures\AppFixtures',
             ));
-
         }
     }
 
     public function testKeyCreateSuccess(): void
     {
-        $this->client->request('POST', '/api/key', array(),
+        $this->client->request(
+            'POST',
+            '/api/key',
+            array(),
             array(),
             array(
                 'CONTENT_TYPE' => 'application/json',
@@ -67,7 +68,10 @@ class KeyTranslationControllerTest extends WebTestCase
      */
     public function testUpdateTranslationAssertionsViolated(): void
     {
-        $this->client->request('PUT', '/api/key-translation', array(),
+        $this->client->request(
+            'PUT',
+            '/api/key-translation',
+            array(),
             array(),
             array(
                 'CONTENT_TYPE' => 'application/json',
@@ -87,13 +91,16 @@ class KeyTranslationControllerTest extends WebTestCase
      */
     public function testUpdateTranslationSuccess(): void
     {
-        $this->client->request('PUT', '/api/key-translation', array(),
+        $this->client->request(
+            'PUT',
+            '/api/key-translation',
+            array(),
             array(),
             array(
                 'CONTENT_TYPE' => 'application/json',
                 'HTTP_Authorization' => 'Bearer a9ed058b68e3a63d4d557a23692ed2fe9f928fc3e407f195dfb73a1cb1764ec6aedff5c4ae45620d6213f3b363d18caf2489eb5484b3c024aef0817e'
             ),
-    '{
+            '{
                 "key": "hello.world",
                 "iso": "eng",
                 "text": "Hello world!"
@@ -108,7 +115,10 @@ class KeyTranslationControllerTest extends WebTestCase
      */
     public function testGetKeyTranslated(): void
     {
-        $this->client->request('GET', '/api/key/1', array(),
+        $this->client->request(
+            'GET',
+            '/api/key/1',
+            array(),
             array(),
             array(
                 'CONTENT_TYPE' => 'application/json',

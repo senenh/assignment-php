@@ -3,6 +3,7 @@
 namespace App\Tests;
 
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use Doctrine\ORM\EntityManager;
 use http\Client;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -15,6 +16,11 @@ class LanguageControllerTest extends WebTestCase
      * @var Client
      */
     protected $client;
+
+    /**
+     * @var EntityManager
+     */
+    protected $em;
 
     protected function setUp(): void
     {
@@ -31,16 +37,19 @@ class LanguageControllerTest extends WebTestCase
             'App\DataFixtures\AppFixtures',
 
         ));
-
     }
 
     public function testLanguagesListSuccess(): void
     {
-        $this->client->request('GET', '/api/languages', array(),
+        $this->client->request(
+            'GET',
+            '/api/languages',
+            array(),
             array(),
             array(
                 'HTTP_Authorization' => 'Bearer d96e7c6c7331bc282799681efd11e9fcbb0a781f0633834ae250cfb0c72c392af847bba77f6554ad408ab8f5032de43c137e7482f70dbc7a9d72310f'
-            ));
+            )
+        );
 
         self::assertEquals('[{"id":1,"name":"English","ISO":"eng","LTR":true},{"id":2,"name":"Spanish","ISO":"spa","LTR":true},{"id":3,"name":"Portuguese","ISO":"por","LTR":true},{"id":4,"name":"French","ISO":"fra","LTR":true}]', $this->client->getResponse()->getContent());
         self::assertResponseIsSuccessful();
@@ -48,10 +57,14 @@ class LanguageControllerTest extends WebTestCase
 
     public function testLanguagesListAccesDenied(): void
     {
-        $this->client->request('GET', '/api/languages', array(),
+        $this->client->request(
+            'GET',
+            '/api/languages',
+            array(),
             array(),
             array(
-            ));
+            )
+        );
 
         self::assertResponseStatusCodeSame(401);
     }

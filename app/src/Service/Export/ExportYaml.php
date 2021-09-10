@@ -28,7 +28,7 @@ class ExportYaml implements Export
 
         $files = $this->generateFile($userIdentifier);
 
-        $zipName = 'yaml-export-'.time().".zip";
+        $zipName = 'yaml-export-' . time() . ".zip";
         return $this->compressZip->compress($files, $zipName, $userId, Export::YAML);
     }
 
@@ -36,7 +36,7 @@ class ExportYaml implements Export
     {
         $userId = hash('ripemd160', $userIdentifier);
 
-        $pathUser = '/tmp/export/'.Export::YAML.'/'.$userId.'/';
+        $pathUser = '/tmp/export/' . Export::YAML . '/' . $userId . '/';
         $languages = $this->manager->getRepository(Language::class)->findAll();
         $yamlFileArray = [];
 
@@ -50,9 +50,9 @@ class ExportYaml implements Export
         }
 
         $yaml = Yaml::dump($yamlFileArray);
-        $this->filesystem->mkdir($pathUser.'zip/', 0700);
-        $this->filesystem->dumpFile($pathUser.'translations.yaml', $yaml);
-        $file = new SplFileInfo($pathUser.'translations.yaml');
+        $this->filesystem->mkdir($pathUser . 'zip/', 0700);
+        $this->filesystem->dumpFile($pathUser . 'translations.yaml', $yaml);
+        $file = new SplFileInfo($pathUser . 'translations.yaml');
 
         return [$file];
     }

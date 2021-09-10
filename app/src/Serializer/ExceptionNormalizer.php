@@ -15,7 +15,7 @@ class ExceptionNormalizer implements NormalizerInterface
 
     public function supportsNormalization($data, $format = null)
     {
-        if ( $data instanceof FlattenException ) {
+        if ($data instanceof FlattenException) {
             /** @var FlattenException $data */
             return  $data->getClass() == NotFoundHttpException::class;
         }

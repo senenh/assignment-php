@@ -13,7 +13,7 @@ class KeyManager
 {
     private EntityManagerInterface $entityManager;
 
-    public function __construct(CompressZip $compressZip, EntityManagerInterface $entityManager,Filesystem $filesystem)
+    public function __construct(CompressZip $compressZip, EntityManagerInterface $entityManager, Filesystem $filesystem)
     {
         $this->entityManager = $entityManager;
     }

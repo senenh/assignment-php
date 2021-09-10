@@ -34,19 +34,19 @@ class KeyTranslationController extends AbstractFOSRestController
         }
 
         /** @var Key $key */
-        $key = $this->getDoctrine()->getRepository(Key::class)->findOneBy(['name'=>$keyLanguageTranslation->getKey()]);
+        $key = $this->getDoctrine()->getRepository(Key::class)->findOneBy(['name' => $keyLanguageTranslation->getKey()]);
         if (!$key) {
-            throw new EntityNotFoundException('Key with name '.$keyLanguageTranslation->getKey().' does not exist!');
+            throw new EntityNotFoundException('Key with name ' . $keyLanguageTranslation->getKey() . ' does not exist!');
         }
 
         /** @var Language $language */
-        $language = $this->getDoctrine()->getRepository(Language::class)->findOneBy(['ISO'=>$keyLanguageTranslation->getIso()]);
+        $language = $this->getDoctrine()->getRepository(Language::class)->findOneBy(['ISO' => $keyLanguageTranslation->getIso()]);
         if (!$language) {
-            throw new EntityNotFoundException('Language with iso '.$keyLanguageTranslation->getIso().' does not exist!');
+            throw new EntityNotFoundException('Language with iso ' . $keyLanguageTranslation->getIso() . ' does not exist!');
         }
 
         /** @var Translation $translation */
-        $translation = $this->getDoctrine()->getRepository(Translation::class)->findOneBy(['keyId'=>$key->getId(), 'language'=>$language->getId()]);
+        $translation = $this->getDoctrine()->getRepository(Translation::class)->findOneBy(['keyId' => $key->getId(), 'language' => $language->getId()]);
         $translation->setText($keyLanguageTranslation->getText());
         $entityManager->persist($translation);
         $entityManager->flush();
