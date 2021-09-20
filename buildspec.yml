@@ -44,7 +44,7 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Installing composer deps
-      - composer install --no-progress --no-suggest
+      - composer install
 
   post_build:
     commands:
@@ -53,4 +53,4 @@ phases:
       # If you don't need it delete it
       # - /usr/bin/mysql  -u root -e "GRANT ALL ON *.* TO 'test'@'localhost' IDENTIFIED BY '' WITH GRANT OPTION"
       # - mysqladmin -u test create test
-      - app/vendor/bin/phpunit
+#      - app/vendor/bin/phpunit
