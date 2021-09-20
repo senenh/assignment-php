@@ -44,7 +44,8 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Installing composer deps
-      - app/composer.phar install
+      - cd app
+      - composer.phar install
 
   post_build:
     commands:
